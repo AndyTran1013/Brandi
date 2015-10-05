@@ -73,7 +73,7 @@ slogan();
 
 function fakeTope(){
 	var imgs = [].slice.call(document.querySelectorAll(".imgContainer img"));
-	alert(imgs.length);
+
 }
 
 fakeTope();
