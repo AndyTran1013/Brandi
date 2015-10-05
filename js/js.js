@@ -78,8 +78,6 @@ function fakeTope(show){
 	var imgs = [].slice.call(document.querySelectorAll(".imgContainer .imgWrap"));
 	var container = document.querySelector(".imgContainer");
 	var maxW = container.offsetWidth;
-	var imgHeight = imgs[0].getBoundingClientRect().height;
-	var imgWidth = imgs[0].getBoundingClientRect().width;
 	var imgCount = 0;
 	var currRow = 1;
 	var currW = 0;
@@ -87,10 +85,14 @@ function fakeTope(show){
 	//check if each image is being displayed and position accordingly
 	imgs.forEach(function (img){
 		img.style.transition = "0.5s";
+		
 		if (img.dataset.category === show || show === "All"){
 			//show & position image
 			img.style.opacity = 1;
+			img.style.transform = "scale(1)";
 			img.style.display = "block";
+			imgHeight = img.getBoundingClientRect().height;
+			imgWidth = img.getBoundingClientRect().width;
 			if (currW + imgWidth > maxW){
 				img.style.left = 0;
 				currRow += 1;
@@ -103,7 +105,9 @@ function fakeTope(show){
 			img.style.top = (imgHeight * (currRow -1)) + "px";
 		} else {
 			//hide image
-			img.style.opacity= 0;
+			setTimeout(function(){img.style.display = "none";},500)
+			img.style.opacity = 0;
+			img.style.transform ="scale(0)";
 		}
 	});
 
