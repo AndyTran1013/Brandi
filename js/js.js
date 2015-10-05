@@ -4,6 +4,7 @@ var resizeTimer
 function selectWork(btn){
 	document.getElementById("selected").id="";
 	btn.id="selected";
+	fakeTope(btn.textContent)
 }
 
 //hamburger menu display
@@ -64,16 +65,51 @@ window.addEventListener("resize", function(){
 	resizeTimer = setTimeout(function(){
 		lnk_ani()		
 		slogan();
+		fakeTope(document.getElementById("selected").textContent);
 	},250);
 });
 
-lnk_ani();
-slogan();
 
 
-function fakeTope(){
-	var imgs = [].slice.call(document.querySelectorAll(".imgContainer img"));
 
+//positions the images inside a container and allows filtering
+//only for equal sized images..
+function fakeTope(show){
+	var imgs = [].slice.call(document.querySelectorAll(".imgContainer .imgWrap"));
+	var container = document.querySelector(".imgContainer");
+	var maxW = container.offsetWidth;
+	var imgHeight = imgs[0].getBoundingClientRect().height;
+	var imgWidth = imgs[0].getBoundingClientRect().width;
+	var imgCount = 0;
+	var currRow = 1;
+	var currW = 0;
+
+	//check if each image is being displayed and position accordingly
+	imgs.forEach(function (img){
+		img.style.transition = "0.5s";
+		if (img.dataset.category === show || show === "All"){
+			//show & position image
+			img.style.opacity = 1;
+			img.style.display = "block";
+			if (currW + imgWidth > maxW){
+				img.style.left = 0;
+				currRow += 1;
+				imgCount = 1;
+			} else {
+				img.style.left = (imgWidth * imgCount-1) + "px";
+				imgCount +=1;
+			}
+			currW = (imgWidth * (imgCount));
+			img.style.top = (imgHeight * (currRow -1)) + "px";
+		} else {
+			//hide image
+			img.style.opacity= 0;
+		}
+	});
+
+	container.style.height = (imgHeight * currRow) + "px"
 }
 
-fakeTope();
+fakeTope("All");
+lnk_ani();
+slogan();
