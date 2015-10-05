@@ -117,6 +117,13 @@ a{
 	width:25%;
 }
 
+.imgWrap{
+	opacity: 0;
+}
+
+.visible{
+	opacity:1;
+}
 
 .hoverBox{
 	position:absolute;
@@ -612,4 +619,3 @@ footer ul li a:hover{
 	color:#000000;
 }
 
-/*responsive*/

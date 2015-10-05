@@ -70,13 +70,15 @@ window.addEventListener("resize", function(){
 });
 
 
-
-
 //positions the images inside a container and allows filtering
 //only for equal sized images..
+
+
 function fakeTope(show){
 	var imgs = [].slice.call(document.querySelectorAll(".imgContainer .imgWrap"));
 	var container = document.querySelector(".imgContainer");
+	var imgHeight = document.querySelector(".visible").getBoundingClientRect().height; 
+	var imgWidth = document.querySelector(".visible").getBoundingClientRect().width;
 	var maxW = container.offsetWidth;
 	var imgCount = 0;
 	var currRow = 1;
@@ -88,11 +90,8 @@ function fakeTope(show){
 		
 		if (img.dataset.category === show || show === "All"){
 			//show & position image
-			img.style.opacity = 1;
+			img.className = "imgWrap visible"
 			img.style.transform = "scale(1)";
-			img.style.display = "block";
-			imgHeight = img.getBoundingClientRect().height;
-			imgWidth = img.getBoundingClientRect().width;
 			if (currW + imgWidth > maxW){
 				img.style.left = 0;
 				currRow += 1;
@@ -105,13 +104,11 @@ function fakeTope(show){
 			img.style.top = (imgHeight * (currRow -1)) + "px";
 		} else {
 			//hide image
-			setTimeout(function(){img.style.display = "none";},500)
-			img.style.opacity = 0;
+			img.className = "imgWrap"
 			img.style.transform ="scale(0)";
 		}
 	});
-
-	container.style.height = (imgHeight * currRow) + "px"
+	container.style.height = (imgHeight * currRow) + "px";
 }
 
 fakeTope("All");
