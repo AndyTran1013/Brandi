@@ -63,10 +63,10 @@ window.addEventListener("scroll", function(){
 window.addEventListener("resize", function(){
 	clearTimeout(resizeTimer);
 	resizeTimer = setTimeout(function(){
-		lnk_ani()		
+		lnk_ani();
 		slogan();
 		fakeTope(document.getElementById("selected").textContent);
-	},250);
+	},500);
 });
 
 
