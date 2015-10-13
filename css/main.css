@@ -117,12 +117,10 @@ a{
 	width:25%;
 }
 
-.imgContainer {
-	white-space: nowrap;
-}
-
-.imgWrap{
+.work .imgWrap{
 	opacity: 0;
+	-webkit-transform: translateZ(0), scale(1);
+
 }
 
 .visible{
@@ -169,7 +167,7 @@ header{
 	height:60px;
 	width: 100%;
 	background-color: rgba(0,0,0,.1);
-	z-index: 999;
+	z-index: 1;
 	-webkit-transform: translateZ(0);
 	        transform: translateZ(0);
 	transition: background-color .3s ease-in;
@@ -222,6 +220,10 @@ header nav a:first-child{
 
 header nav a:hover {
 	color: #424242;
+}
+
+.lnkLine{
+	cursor: pointer;
 }
 
 .lnkLine:after{
@@ -281,9 +283,8 @@ header nav a:hover {
 .main{
 	height:100vh;
 	max-height:800px;
-	background:url("../images/main.png") no-repeat center/cover;
+	background:url("../images/main.jpg") no-repeat center/cover;
 	color:#FFFFFF;
-	box-shadow: 00px 00px 500px 100px #050d18 inset;
 }
 
 .hero-text{

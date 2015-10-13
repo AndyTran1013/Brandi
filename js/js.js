@@ -1,11 +1,48 @@
-var resizeTimer
+var resizeTimer //variable used to store timeout function
 
-//when "works" nav is clicked
+/*-----------------Event Listeners-----------------*/
+
+//initialize functions
+window.addEventListener("load",function(){
+	fakeTope("All");
+	lnk_ani();
+	slogan();
+});
+
+//fixed header effect
+window.addEventListener("scroll", function(){
+	var header = document.querySelector("header");
+	
+	if (window.scrollY > 0){
+		header.style.backgroundColor="#0eb493";
+		header.id ="nav-shadow";
+	} else{
+		header.style.backgroundColor = "rgba(0,0,0,.1)";
+		header.id ="";
+	}
+});
+
+//add/remove classes for responsive
+window.addEventListener("resize", function(){
+	clearTimeout(resizeTimer);
+	resizeTimer = setTimeout(function(){
+		lnk_ani();
+		slogan();
+		fakeTope(document.getElementById("selected").textContent);
+	},500);
+});
+
+
+
+/*-----------------Functions-----------------*/
+
+//when "works" nav is clicked; highlight and filter works
 function selectWork(btn){
 	document.getElementById("selected").id="";
 	btn.id="selected";
 	fakeTope(btn.textContent)
 }
+
 
 //hamburger menu display
 function menuBtn(){
@@ -35,6 +72,7 @@ function lnk_ani(){
 
 }
 
+//add/remove line in "hero-text"
 function slogan(){
 	var w = window.innerWidth;
 	var str = document.querySelector (".hero-text p");
@@ -46,33 +84,9 @@ function slogan(){
 	}
 }
 
-//fixed header effect
-window.addEventListener("scroll", function(){
-	var header = document.querySelector("header");
-	
-	if (window.scrollY > 0){
-		header.style.backgroundColor="#0eb493";
-		header.id ="nav-shadow";
-	} else{
-		header.style.backgroundColor = "rgba(0,0,0,.1)";
-		header.id ="";
-	}
-});
-
-//add/remove classes for responsive
-window.addEventListener("resize", function(){
-	clearTimeout(resizeTimer);
-	resizeTimer = setTimeout(function(){
-		lnk_ani();
-		slogan();
-		fakeTope(document.getElementById("selected").textContent);
-	},500);
-});
-
 
 //positions the images inside a container and allows filtering
 //only for equal sized images..
-
 
 function fakeTope(show){
 	var imgs = [].slice.call(document.querySelectorAll(".imgContainer .imgWrap"));
@@ -83,34 +97,34 @@ function fakeTope(show){
 	var imgCount = 0;
 	var currRow = 1;
 	var currW = 0;
+	var x,y;
 
 	//check if each image is being displayed and position accordingly
+
 	imgs.forEach(function (img){
-		img.style.transition = "0.5s";
-		
+		img.style.transition ="0.4s"
 		if (img.dataset.category === show || show === "All"){
 			//show & position image
-			img.className = "imgWrap visible"
-			img.style.transform = "scale(1)";
+			img.classList.add("visible");
+			img.style.transform =img.style.transform.replace("scale(0)","scale(1)");
+
 			if (currW + imgWidth > maxW){
-				img.style.left = 0;
+				x = 0;
 				currRow += 1;
 				imgCount = 1;
 			} else {
-				img.style.left = (imgWidth * imgCount-1) + "px";
+				x = (Math.floor(imgWidth) * imgCount-1) + "px";
 				imgCount +=1;
 			}
 			currW = (imgWidth * (imgCount));
-			img.style.top = (imgHeight * (currRow -1)) + "px";
+			y= (Math.floor(imgHeight) * (currRow -1)) + "px";
+			img.style.transform = "translate3d(" + x + ","+ y + ",0)" +"scale(1)";
 		} else {
 			//hide image
-			img.className = "imgWrap"
-			img.style.transform ="scale(0)";
+			img.classList.remove("visible");
+			img.style.transform =img.style.transform.replace("scale(1)","scale(0)");
 		}
 	});
 	container.style.height = (imgHeight * currRow) + "px";
 }
 
-fakeTope("All");
-lnk_ani();
-slogan();
