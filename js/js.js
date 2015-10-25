@@ -1,4 +1,6 @@
 var resizeTimer //variable used to store timeout function
+var nav = [].slice.call(document.querySelectorAll("header nav a"));
+var worksNav = [].slice.call(document.querySelectorAll(".works .btnWrap button"));
 
 /*-----------------Event Listeners-----------------*/
 
@@ -32,7 +34,17 @@ window.addEventListener("resize", function(){
 	},500);
 });
 
+nav.forEach(function(e){
+	e.addEventListener("click", function(){
+		smoothScroll(e.textContent);
+	})
+});
 
+worksNav.forEach(function(e){
+	e.addEventListener("click",function(){
+		selectWork(e);
+	})
+})
 
 /*-----------------Functions-----------------*/
 
@@ -128,43 +140,21 @@ function fakeTope(show){
 	container.style.height = (imgHeight * currRow) + "px";
 }
 
-
-//smooth scrolling - **make note of fixed header
+//smooth scrolling to element id
 function smoothScroll(eID){
-	//subtract height of fixed header to scroll to element without being covered
-	var headerH = document.querySelector('header').offsetHeight;
+	var headerH = document.querySelector('header').offsetHeight; //size of header
 	var startY = window.scrollY;
 	var endY = getYPosition(eID) - headerH - 10; //10px of white space
-	var distance = Math.abs(startY - endY);
-	var speed = Math.max(Math.floor(distance / 100), 20)//max speed of scrolling
-	var step = Math.floor(distance / 25) //how much to scroll by
-	var time = 0;
 
-	startY = Math.floor(startY/step)*step;
-	endY = Math.floor(endY/step) * step;
-
-	if (startY > endY) {
-		step = step * -1;
-	}
-
-	/*
-	t = current time, b = start val, c = change in val, d = duration
-Math.easeInQuint = function (t, b, c, d) {
-	t /= d;
-	return c*t*t*t*t*t + b;
-};
-	*/
-
-	for (var i = startY; i !== endY; i += step){
-		setTimeout(function(y){
-			return function(){
-				window.scrollTo(0,y += step)
-			}
-		}(i),time * speed);
-		time++;
-	}
+	animate({
+		delay: 10,
+		duration: 800,
+		delta: easeInQuint,
+		step: function(delta) {
+			window.scrollTo(0,(startY + delta*(endY - startY)));
+		}
+	});
 }
-
 
 //get Y position of the element
 function getYPosition(eID){
@@ -177,4 +167,38 @@ function getYPosition(eID){
 		y += node.offsetTop;
 	}
 	return y;
+}
+
+
+
+//general animation function
+/*
+options are {
+	delay
+	duration
+	delta
+	step
+}
+*/
+function animate(options){
+	var start = new Date;
+	var id = setInterval(function(){
+		var timePassed = new Date - start;
+		var progress = timePassed / options.duration
+
+		if (progress >= 1) {progress = 1};
+
+		var delta = options.delta(progress);
+		options.step(delta);
+
+		if (progress ==1 ){
+			clearInterval(id);
+		}
+
+	}, options.delay || 10) //minimum delay
+
+}
+
+function easeInQuint(progress){
+	 return Math.pow(progress,5);
 }

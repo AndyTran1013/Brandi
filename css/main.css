@@ -200,13 +200,13 @@ header nav{
 	top:10px;
 }
 
-
 header nav a{
 	padding: 0 15px;
 	line-height: 60px;
 	font-size: .9em;
 	font-weight: 600;
 	color: #FFFFFF;
+	cursor: pointer;
 	display:inline-block;
 }
 
@@ -222,9 +222,6 @@ header nav a:hover {
 	color: #424242;
 }
 
-.lnkLine{
-	cursor: pointer;
-}
 
 .lnkLine:after{
 	content: "";
@@ -238,8 +235,8 @@ header nav a:hover {
 	    -ms-transform: scaleX(0);
 	        transform: scaleX(0);
 	transition: all  .3s ease-out;
-
 }
+
 .lnkLine:hover:after{
     -webkit-transform: scaleX(1);
         -ms-transform: scaleX(1);
