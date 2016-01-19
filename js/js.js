@@ -11,16 +11,12 @@ window.addEventListener("load",function(){
 	slogan();
 });
 
-//fixed header effect
+//change header colour on scroll
 window.addEventListener("scroll", function(){
-	var header = document.querySelector("header");
-	
 	if (window.scrollY > 0){
-		header.style.backgroundColor="#0eb493";
-		header.id ="nav-shadow";
+		toggleHeader(true);
 	} else{
-		header.style.backgroundColor = "rgba(0,0,0,.1)";
-		header.id ="";
+		toggleHeader(false);
 	}
 });
 
@@ -37,6 +33,7 @@ window.addEventListener("resize", function(){
 nav.forEach(function(e){
 	e.addEventListener("click", function(){
 		smoothScroll(e.textContent);
+		e.parentNode.style.height = 0;
 	})
 });
 
@@ -61,11 +58,25 @@ function menuBtn(){
 	var lnk = document.querySelectorAll("header nav a");
 	var nav = document.querySelector("header nav");
 	
+	toggleHeader(true)
 	if (nav.offsetHeight !== 0){
 		nav.style.height = "0";
 	} else {
 		nav.style.height = lnk[0].offsetHeight * lnk.length + "px";
 	};
+}
+
+//toggle header colour
+function toggleHeader(toggle){
+	var header = document.querySelector("header");
+	
+	if (toggle){
+		header.style.backgroundColor="#0eb493";
+		header.id ="nav-shadow";
+	} else{
+		header.style.backgroundColor = "rgba(0,0,0,.1)";
+		header.id ="";
+	}
 }
 
 //add/remove link animations in header
